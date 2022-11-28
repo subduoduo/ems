@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <script src="./layui/layui.js"></script>
+</head>
+<body>
+    <div style="margin-right: 40px; width: 400px;">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="username" required  lay-verify="required" placeholder="请输入用户名" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-block">
+                    <input type="password" name="password" required lay-verify="required" placeholder="请输入密码"
+                        class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">确认密码</label>
+                <div class="layui-input-block">
+                    <input type="password" name="repassword" required lay-verify="required" placeholder="请输入确认密码"
+                        class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" required lay-verify="required" placeholder="请输入姓名"
+                        class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">年龄</label>
+                <div class="layui-input-block">
+                    <input type="text" name="age" required lay-verify="required" placeholder="请输入年龄"
+                        class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">头像</label>
+                <div class="layui-input-block">
+                    <button type="button" class="layui-btn layui-btn-normal" id="avatar">
+                        <i class="layui-icon">&#xe67c;</i>上传图片
+                    </button>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="add" style="width: 180px;">添&nbsp;&nbsp;&nbsp;&nbsp;加</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        layui.use(['layer','form', 'upload'],function () {
+            var layer = layui.layer;
+            var $ = layui.jquery;
+            var form = layui.form;
+            var upload = layui.upload;
+   
+            //执行实例
+            var uploadInst = upload.render({
+                elem: '#avatar', //绑定元素
+                url: '/upload/', //上传接口
+                done: function(res){
+                    //上传完毕回调
+                },
+                error: function(){
+                    //请求异常回调
+                }
+            });
+
+            form.on('submit(add)',function(data){
+                
+                return false // 阻止表单的提交
+            })
+
+        })
+    </script>
+</body>
+</html>

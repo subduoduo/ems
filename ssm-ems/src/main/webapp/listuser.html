@@ -1,0 +1,181 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <script src="./layui/layui.js"></script>
+</head>
+<body>
+    <!-- 多条件查询 -->
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label" style="width: auto;">用户名</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="name" placeholder="请输入用户名" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label" style="width: auto;">姓名</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="loc" placeholder="姓名" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label" style="width: auto;">状态</label>
+                <div class="layui-input-inline">
+                  <select name="city" lay-verify="required">
+                    <option value="">请选择状态</option>
+                    <option value="1">启用</option>
+                    <option value="0">禁用</option>
+                  </select>
+                </div>
+              </div>
+            <div class="layui-inline">
+                <button class="layui-btn layui-btn-normal">查询</button>
+            </div>
+        </div>
+    </form>
+
+    <table class="layui-table">
+        <tr>
+            <th>序号</th>
+            <th>用户名</th>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>状态</th>
+            <th>注册时间</th>
+            <th>操作</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>tom</td>
+            <td>汤姆</td>
+            <td>20</td>
+            <td class="layui-form">
+                <input type="checkbox" lay-skin="switch" lay-text="启用|禁用" checked>
+            </td>
+            <td>2022-02-14 12:30:25</td>
+            <td>
+                <button class="layui-btn layui-btn-sm layui-btn-normal" onclick="doModify()">编辑</button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger" onclick="doDelete()">删除</button>
+            </td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>jack</td>
+            <td>杰克</td>
+            <td>20</td>
+            <td class="layui-form">
+                <input type="checkbox" lay-skin="switch" lay-text="启用|禁用">
+            </td>
+            <td>2022-02-14 09:23:04</td>
+            <td>
+                <button class="layui-btn layui-btn-sm layui-btn-normal" onclick="doModify()">编辑</button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger" onclick="doDelete()">删除</button>
+            </td>
+        </tr>
+    </table>
+    <!-- 分页容器 -->
+    <div id="pagination" style="text-align: center;"></div>
+
+    <!-- 修改弹出层 -->
+    <div id="modifyLayer" style="display: none; margin-top: 30px;margin-right: 40px; width: 400px;">
+        <form class="layui-form">
+            <input type="hidden" name="id" id="id">
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="username" id="username" required lay-verify="required" placeholder="请输入用户名"
+                        class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-block">
+                    <input type="password" name="password" id="password" required lay-verify="required" placeholder="请输入密码"
+                        class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" id="name" required lay-verify="required" placeholder="请输入姓名"
+                        class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">年龄</label>
+                <div class="layui-input-block">
+                    <input type="text" name="age" id="age" required lay-verify="required" placeholder="请输入年龄"
+                        class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="modify"
+                        style="width: 180px;">修&nbsp;&nbsp;&nbsp;&nbsp;改</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        layui.use(['layer', 'laypage', 'form'], function () {
+            var layer = layui.layer;
+            var laypage = layui.laypage;
+            var $ = layui.jquery;
+            var form = layui.form;
+
+            form.render();
+
+            //执行一个laypage实例
+            laypage.render({
+                elem: 'pagination', //分页容器的id
+                count: 10, //数据总数
+                limit: 3, //每页显示的数据条数
+                curr: 2, // 当前页码
+                layout: ['prev', 'page', 'next', 'count', 'skip'],  //自定义排版
+                jump: function (obj, first) { // obj包含当前分页的信息，first表示是否执行
+                    if (!first) {
+                        layer.msg('第' + obj.curr + '页');
+                    }
+                }
+            });
+
+        });
+
+        /**
+         * 删除
+         */
+        function doDelete(id) {
+            layui.use('layer', function () {
+                var layer = layui.layer;
+                var $ = layui.jquery;
+                layer.confirm('确定要删除吗', { icon: 3, title: '提示信息' }, function (index) {
+
+                    layer.close(index)
+                });
+            })
+        }
+
+        /**
+         * 修改
+         */
+        function doModify(id) {
+            layui.use(['layer', 'form'], function () {
+                var layer = layui.layer;
+                var $ = layui.jquery;
+                var form = layui.form;
+
+                layer.open({
+                    type: 1,
+                    title: '修改管理员信息',
+                    content: $('#modifyLayer'),
+                })
+
+            })
+        }
+    </script>
+</body>
+</html>

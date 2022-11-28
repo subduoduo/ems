@@ -1,0 +1,143 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <script src="./layui/layui.js"></script>
+</head>
+<body>
+    <!-- 多条件查询 -->
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label" style="width: auto;">部门名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="name" placeholder="请输入部门名称" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label" style="width: auto;">部门位置</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="loc" placeholder="请输入部门位置" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn layui-btn-normal">查询</button>
+            </div>
+        </div>
+    </form>
+
+    <table class="layui-table">
+        <tr>
+            <th>序号</th>
+            <th>部门名称</th>
+            <th>部门位置</th>
+            <th>操作</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>市场部</td>
+            <td>南京</td>
+            <td>
+                <button class="layui-btn layui-btn-sm layui-btn-normal" onclick="doModify()">编辑</button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger" onclick="doDelete()">删除</button>
+            </td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>研发部</td>
+            <td>上海</td>
+            <td>
+                <button class="layui-btn layui-btn-sm layui-btn-normal" onclick="doModify()">编辑</button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger" onclick="doDelete()">删除</button>
+            </td>
+        </tr>
+    </table>
+    <!-- 分页容器 -->
+    <div id="pagination" style="text-align: center;"></div>
+
+    <!-- 修改弹出层 -->
+    <div id="modifyLayer" style="display: none; margin-top: 30px;margin-right: 40px; width: 400px;">
+        <form class="layui-form">
+            <input type="hidden" name="id" id="id">
+            <div class="layui-form-item">
+                <label class="layui-form-label">部门名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" id="name" required lay-verify="required" placeholder="请输入部门名称"
+                        class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">部门位置</label>
+                <div class="layui-input-block">
+                    <input type="text" name="loc" id="loc" required lay-verify="required" placeholder="请输入部门位置"
+                        class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="modify"
+                        style="width: 180px;">修&nbsp;&nbsp;&nbsp;&nbsp;改</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <script>
+        layui.use(['layer', 'laypage'], function () {
+            var layer = layui.layer;
+            var laypage = layui.laypage;
+            var $ = layui.jquery;
+
+            //执行一个laypage实例
+            laypage.render({
+                elem: 'pagination', //分页容器的id
+                count: 10, //数据总数
+                limit: 3, //每页显示的数据条数
+                curr: 2, // 当前页码
+                layout: ['prev', 'page', 'next', 'count', 'skip'],  //自定义排版
+                jump: function (obj, first) { // obj包含当前分页的信息，first表示是否执行
+                    if (!first) {
+                        layer.msg('第' + obj.curr + '页');
+                    }
+                }
+            });
+
+        });
+
+        /**
+         * 删除
+         */
+        function doDelete(id) {
+            layui.use('layer', function () {
+                var layer = layui.layer;
+                var $ = layui.jquery;
+                layer.confirm('确定要删除吗', { icon: 3, title: '提示信息' }, function (index) {
+
+                    layer.close(index)
+                });
+            })
+        }
+
+        /**
+         * 修改
+         */
+        function doModify(id) {
+            layui.use(['layer', 'form'], function () {
+                var layer = layui.layer;
+                var $ = layui.jquery;
+                var form = layui.form;
+
+                layer.open({
+                    type: 1,
+                    title: '修改部门信息',
+                    content: $('#modifyLayer'),
+                })
+
+            })
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <script src="./layui/layui.js"></script>
+</head>
+<body>
+    <div style="margin-right: 40px; width: 400px;">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">部门名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" required  lay-verify="required" placeholder="请输入部门名称" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">部门位置</label>
+                <div class="layui-input-block">
+                    <input type="text" name="loc" required  lay-verify="required" placeholder="请输入部门名称" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="add" style="width: 180px;">添&nbsp;&nbsp;&nbsp;&nbsp;加</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        layui.use(['layer','form'],function () {
+            var layer = layui.layer;
+            var $ = layui.jquery;
+            var form = layui.form;
+
+            form.on('submit(add)',function(data){
+                
+                return false // 阻止表单的提交
+            })
+
+        })
+    </script>
+</body>
+</html>
