@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.EmpDao">
+
+    <sql id="empSql">
+        e.id,
+        e.name,
+        e.age,
+        e.sex,
+        e.height,
+        e.birthday,
+        e.dept_id,
+        d.id deptId,
+        d.name deptName,
+        d.loc
+    </sql>
+
+    <resultMap id="emp" type="Emp">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>
+        <result property="sex" column="sex"/>
+        <result property="height" column="height"/>
+        <result property="birthday" column="birthday"/>
+        <association property="dept" javaType="Dept">
+            <id property="id" column="deptId"/>
+            <result property="name" column="deptName"/>
+            <result property="loc" column="loc"/>
+        </association>
+    </resultMap>
+
+    <select id="selectAll" resultType="Emp" resultMap="emp">
+        select
+          <include refid="empSql"/>
+        from
+          t_emp e,t_dept d
+        where
+          e.dept_id = d.id
+    </select>
+
+
+    <insert id="insert" parameterType="Emp">
+        insert into
+          t_emp
+          (name,age,sex,height,birthday,dept_id)
+        values
+          (#{name},#{age},#{sex},#{height},#{birthday},#{dept.id})
+    </insert>
+</mapper>
